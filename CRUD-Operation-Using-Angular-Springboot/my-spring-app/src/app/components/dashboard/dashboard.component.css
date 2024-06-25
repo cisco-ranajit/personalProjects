@@ -1,0 +1,12 @@
+.toolbar{
+    background-color: rgb(118, 72, 245);
+    color: aliceblue;
+}
+.formGroup{
+    padding: 10px;
+    display: flex;
+    gap: 8px;
+}
+.btn-add{
+    margin-top: 10px;
+}
