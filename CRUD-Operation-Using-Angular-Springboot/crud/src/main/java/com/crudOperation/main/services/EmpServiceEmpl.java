@@ -29,4 +29,9 @@ public class EmpServiceEmpl implements EmployeService{
     public void deleteEntity(Long id) {
         employeeRepository.deleteById(id);
     }
+
+    @Override
+    public EmployeeDAO createEntity(EmployeeDAO employeeDAO) {
+        return employeeRepository.save(employeeDAO);
+    }
 }

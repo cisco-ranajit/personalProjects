@@ -5,26 +5,30 @@
     </mat-toolbar>
     
     <!-- Add employee -->
-     <form action="" class="formGroup">
+     <form (ngSubmit)="createEmployeeProfile()" class="formGroup">
         <mat-form-field appearance="outline">
-            <mat-label>First Name</mat-label>
-            <input matInput placeholder="" required>
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-            <mat-label>Last Name</mat-label>
-            <input matInput placeholder="" required>
+            <mat-label>Full name</mat-label>
+            <input matInput placeholder="" required [(ngModel)]="employeeForm.empName" name="empName">
         </mat-form-field>
         <mat-form-field appearance="outline">
             <mat-label>Salary</mat-label>
-            <input matInput placeholder="" required>
+            <input matInput placeholder="" required [(ngModel)]="employeeForm.salary" name="salary">
         </mat-form-field>
         <mat-form-field appearance="outline">
-            <mat-label>Position</mat-label>
-            <mat-select>
-              <mat-option value="one">First option</mat-option>
-              <mat-option value="two">Second option</mat-option>
-            </mat-select>
-        </mat-form-field>
+          <mat-label>Address</mat-label>
+          <input matInput placeholder="" required [(ngModel)]="employeeForm.address" name="adress">
+       </mat-form-field>
+       <mat-form-field appearance="outline">
+        <mat-label>Job profile</mat-label>
+        <mat-select [(ngModel)]="employeeForm.job_profile" name="job_profile">
+          <mat-option value="Java Developer">Java Developer</mat-option>
+          <mat-option value="UI/UX Designer">UI/UX Designer</mat-option>
+          <mat-option value="Angular">Angular</mat-option>
+          <mat-option value="React">React</mat-option>
+          <mat-option value="Python">Python</mat-option>
+          <mat-option value="Data Analyst">Data Analyst</mat-option>
+        </mat-select>
+      </mat-form-field>
         <button mat-flat-button type="submit" class="btn-add">Add</button>
      </form>
     
@@ -32,33 +36,39 @@
     <mat-divider></mat-divider>
 
     <!-- fetching data  -->
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <table mat-table [dataSource]="employees" class="mat-elevation-z8">
 
         <!--- Note that these columns can be defined in any order.
               The actual rendered columns are set as a property on the row definition" -->
       
         <!-- Position Column -->
-        <ng-container matColumnDef="position">
+        <ng-container matColumnDef="no">
           <th mat-header-cell *matHeaderCellDef> No. </th>
-          <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+          <td mat-cell *matCellDef="let employees"> {{employees.id}} </td>
         </ng-container>
       
         <!-- Name Column -->
         <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef> Name </th>
-          <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+          <th mat-header-cell *matHeaderCellDef> Full Name </th>
+          <td mat-cell *matCellDef="let employees"> {{employees.empName}} </td>
         </ng-container>
       
-        <!-- Weight Column -->
-        <ng-container matColumnDef="weight">
+        <!-- salary Column -->
+        <ng-container matColumnDef="salary">
           <th mat-header-cell *matHeaderCellDef> Salary </th>
-          <td mat-cell *matCellDef="let element"> {{element.salary}} </td>
+          <td mat-cell *matCellDef="let employees"> {{employees.salary}} </td>
         </ng-container>
       
-        <!-- Symbol Column -->
-        <ng-container matColumnDef="symbol">
-          <th mat-header-cell *matHeaderCellDef> Symbol </th>
-          <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+        <!-- job_profile Column -->
+        <ng-container matColumnDef="job_profile">
+          <th mat-header-cell *matHeaderCellDef> Job Profile </th>
+          <td mat-cell *matCellDef="let employees"> {{employees.job_profile}} </td>
+        </ng-container>
+
+        <!-- address Column -->
+        <ng-container matColumnDef="address">
+          <th mat-header-cell *matHeaderCellDef> Address </th>
+          <td mat-cell *matCellDef="let employees"> {{employees.address}} </td>
         </ng-container>
 
         <!-- Action Button -->
@@ -70,8 +80,8 @@
             </td>
         </ng-container>
       
-        <tr mat-header-row *matHeaderRowDef="['position', 'name', 'weight', 'symbol', 'actions']"></tr>
-        <tr mat-row *matRowDef="let row; columns: ['position', 'name', 'weight', 'symbol', 'actions'];"></tr>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
       
 </section>

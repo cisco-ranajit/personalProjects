@@ -6,11 +6,29 @@ import jakarta.persistence.*;
 @Table(name = "employees_db")
 public class EmployeeDAO {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String empName;
     private int salary;
     private String address;
+    private String job_profile;
+
+    public EmployeeDAO(){}
+
+    public EmployeeDAO(Long id, String empName, int salary, String address, String job_profile) {
+        this.id = id;
+        this.empName = empName;
+        this.salary = salary;
+        this.address = address;
+        this.job_profile = job_profile;
+    }
+
+    public String getJob_profile() {
+        return job_profile;
+    }
+    public void setJobProfile(){
+        this.job_profile = job_profile;
+    }
 
     public int getSalary() {
         return salary;

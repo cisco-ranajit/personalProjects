@@ -8,4 +8,5 @@ public interface EmployeService {
     List<EmployeeDAO> getEntityList();
     EmployeeDAO getEntityById(Long id);
     void deleteEntity(Long id);
+    EmployeeDAO createEntity(EmployeeDAO employeeDAO);
 }
