@@ -43,7 +43,6 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.getEmployeeList();
-    throw new Error('Method not implemented.');
   }
 
   getEmployeeList() : void{
@@ -52,23 +51,50 @@ export class DashboardComponent implements OnInit {
     })
   }
 
-  createEmployeeProfile(): void {
+  createOrUpdateEmployeeProfile(): void {
     const newEmployee: Employee ={
       empName: this.employeeForm.empName,
       salary: this.employeeForm.salary,
       address: this.employeeForm.address,
       job_profile: this.employeeForm.job_profile
     }
-    this.service.createEmployeeProfile(newEmployee).subscribe((data : any) => {
-      console.log(data);
-      this.employees.push(data);
-      this.employeeForm ={
-        empName: '',
-        salary: '',
-        address: '',
-        job_profile: ''
-      };
-    })
+    if (newEmployee.id) {
+      this.service.updateEmployeeProfile(newEmployee.id, newEmployee).subscribe({
+        next: (data) => {
+          console.log(data);
+          const index = this.employees.findIndex(e => e.id === data.id);
+          this.employees[index] = data; // Update the employee in the list
+          this.resetForm();
+        },
+        error: (err) => {
+          console.error('Error updating employee profile', err);
+        }
+      });
+    } else {
+      this.service.createEmployeeProfile(newEmployee).subscribe({
+        next: (data) => {
+          console.log(data);
+          this.employees.push(data); // Add the new employee to the list
+          this.resetForm();
+        },
+        error: (err) => {
+          console.error('Error creating employee profile', err);
+        }
+      });
+    }
+  }
+
+  resetForm() {
+    this.employeeForm = {
+      empName: '',
+      salary: '',
+      address: '',
+      job_profile: ''
+    };
+  }
+
+  editEmployee(employee: Employee){
+    this.employeeForm = { ...employee };
   }
 
   deleteEmployeeProfile(employeeId: number) {
@@ -82,4 +108,5 @@ export class DashboardComponent implements OnInit {
       }
     });
   }
+
 }

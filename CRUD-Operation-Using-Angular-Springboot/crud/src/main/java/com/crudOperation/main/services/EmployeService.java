@@ -9,4 +9,5 @@ public interface EmployeService {
     EmployeeDAO getEntityById(Long id);
     void deleteEntity(Long id);
     EmployeeDAO createEntity(EmployeeDAO employeeDAO);
+    EmployeeDAO updateEntity(Long id, EmployeeDAO employeeDAO);
 }

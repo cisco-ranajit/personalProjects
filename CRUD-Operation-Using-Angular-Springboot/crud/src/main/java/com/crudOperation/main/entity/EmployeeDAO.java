@@ -26,7 +26,7 @@ public class EmployeeDAO {
     public String getJob_profile() {
         return job_profile;
     }
-    public void setJobProfile(){
+    public void setJobProfile(String job_profile){
         this.job_profile = job_profile;
     }
 

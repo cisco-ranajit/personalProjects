@@ -23,4 +23,10 @@ export class ApiServiceService {
   deleteEmployeeProfile(id : number) : Observable<void>{
     return this.httpClient.delete<void>(`${this.baseUrl}/delete/${id}`);
   }
+
+  updateEmployeeProfile(id : number , employee : Employee) : Observable<Employee>{
+    const header = new HttpHeaders({'Content-Type': 'application/json'})
+    return this.httpClient.put<Employee>(`${this.baseUrl}/update/${id}`, employee, {headers:header});
+  }
+
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 @Service
 public class EmpServiceEmpl implements EmployeService{
 
@@ -33,5 +34,20 @@ public class EmpServiceEmpl implements EmployeService{
     @Override
     public EmployeeDAO createEntity(EmployeeDAO employeeDAO) {
         return employeeRepository.save(employeeDAO);
+    }
+
+    @Override
+    public EmployeeDAO updateEntity(Long id, EmployeeDAO employeeDAO) {
+        Optional<EmployeeDAO> isEmployee = employeeRepository.findById(id);
+        if (isEmployee.isPresent()) {
+            EmployeeDAO emppDao = isEmployee.get();
+            emppDao.setEmpName(employeeDAO.getEmpName());
+            emppDao.setSalary(employeeDAO.getSalary());
+            emppDao.setAddress(employeeDAO.getAddress());
+            emppDao.setJobProfile(employeeDAO.getJob_profile());
+            return employeeRepository.save(emppDao);
+        } else{
+            throw new RuntimeException("Employee not found");
+        }
     }
 }

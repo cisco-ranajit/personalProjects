@@ -5,7 +5,7 @@
     </mat-toolbar>
     
     <!-- Add employees -->
-     <form (ngSubmit)="createEmployeeProfile()" class="formGroup">
+     <form (ngSubmit)="createOrUpdateEmployeeProfile()" class="formGroup">
         <mat-form-field appearance="outline">
             <mat-label>Full name</mat-label>
             <input matInput placeholder="" required [(ngModel)]="employeeForm.empName" name="empName">
@@ -74,9 +74,9 @@
         <!-- Action Button -->
         <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef> Actions </th>
-            <td mat-cell *matCellDef="let student">
-              <button mat-button>Update</button>
-              <button mat-button (click)="deleteEmployeeProfile(student.id)">Delete</button>
+            <td mat-cell *matCellDef="let employee">
+              <button mat-button >Update</button>
+              <button mat-button (click)="deleteEmployeeProfile(employee.id)">Delete</button>
             </td>
         </ng-container>
       
