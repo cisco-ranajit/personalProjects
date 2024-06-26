@@ -19,4 +19,8 @@ export class ApiServiceService {
   getEmployeeList() : Observable<Employee>{
     return this.httpClient.get<Employee>(this.baseUrl);
   }
+
+  deleteEmployeeProfile(id : number) : Observable<void>{
+    return this.httpClient.delete<void>(`${this.baseUrl}/delete/${id}`);
+  }
 }

@@ -70,4 +70,16 @@ export class DashboardComponent implements OnInit {
       };
     })
   }
+
+  deleteEmployeeProfile(employeeId: number) {
+    this.service.deleteEmployeeProfile(employeeId).subscribe({
+      next: () => {
+        console.log(`Employee with ID ${employeeId} deleted`);
+        this.employees = this.employees.filter(e => e.id !== employeeId);
+      },
+      error: (err) => {
+        console.error('Error deleting employee', err);
+      }
+    });
+  }
 }

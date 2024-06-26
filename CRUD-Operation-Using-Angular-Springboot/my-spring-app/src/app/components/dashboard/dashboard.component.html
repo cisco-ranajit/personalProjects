@@ -4,7 +4,7 @@
         <span>Spring boot demo CRUD Application</span>
     </mat-toolbar>
     
-    <!-- Add employee -->
+    <!-- Add employees -->
      <form (ngSubmit)="createEmployeeProfile()" class="formGroup">
         <mat-form-field appearance="outline">
             <mat-label>Full name</mat-label>
@@ -76,7 +76,7 @@
             <th mat-header-cell *matHeaderCellDef> Actions </th>
             <td mat-cell *matCellDef="let student">
               <button mat-button>Update</button>
-              <button mat-button>Delete</button>
+              <button mat-button (click)="deleteEmployeeProfile(student.id)">Delete</button>
             </td>
         </ng-container>
       
