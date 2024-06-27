@@ -7,34 +7,41 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import org.springframework.security.core.GrantedAuthority;
 
 @Entity
 public
-class Role{
+class Role implements GrantedAuthority {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String name;
+    private String roleName;
+    private String roleDescription;
     @ManyToMany(mappedBy = "roles")
     private Set<User> users;
-    public Long getId() {
-        return id;
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-    public Set<User> getUsers() {
-        return users;
-    }
     public void setUsers(Set<User> users) {
         this.users = users;
+    }
+
+    public String getRoleDescription() {
+        return roleDescription;
+    }
+
+    public void setRoleDescription(String roleDescription) {
+        this.roleDescription = roleDescription;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
+
+
+    @Override
+    public String getAuthority() {
+        return this.roleName;
     }
 }
 

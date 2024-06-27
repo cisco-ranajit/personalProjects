@@ -1,5 +1,8 @@
 package com.main.studentManagement.entity;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import jakarta.persistence.Entity;
@@ -10,32 +13,58 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 @Entity
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String username;
     private String password;
-    private boolean enabled;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-        name = "users_roles",
-        joinColumns = @JoinColumn(name = "user_name"),
-        inverseJoinColumns = @JoinColumn(name = "role_name")
+        name = "USER_ROLES",
+        joinColumns = @JoinColumn(name = "USER_ID"),
+        inverseJoinColumns = @JoinColumn(name = "ROLE_ID")
         )
     private Set<Role> roles;
+    public User(){
+        super();
+        this.roles = new HashSet<>();
+    }
+    public User(String username, String password, Set<Role> roles){
+        super();
+        this.username = username;
+        this.password = password;
+        this.roles = roles;
+    }
 
-    
-    public Long getId() {
-        return id;
+    @Override
+    public boolean isAccountNonExpired() {
+        return UserDetails.super.isAccountNonExpired();
     }
-    public void setId(Long id) {
-        this.id = id;
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return UserDetails.super.isAccountNonLocked();
     }
-    public String getUsername() {
-        return username;
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return UserDetails.super.isCredentialsNonExpired();
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return UserDetails.super.isEnabled();
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.roles;
     }
     public void setUsername(String username) {
         this.username = username;
@@ -46,17 +75,20 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-    public boolean isEnabled() {
-        return enabled;
-    }
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
     public Set<Role> getRoles() {
         return roles;
     }
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+    public Long getId() {
+        return id;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
+    public String getUsername() {
+        return username;
     }
 }
 
