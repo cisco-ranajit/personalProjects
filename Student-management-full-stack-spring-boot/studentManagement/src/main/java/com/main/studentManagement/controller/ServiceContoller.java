@@ -1,24 +1,17 @@
 package com.main.studentManagement.controller;
 
-import com.main.studentManagement.entity.Role;
 import com.main.studentManagement.entity.StudentInfo;
 import com.main.studentManagement.entity.User;
-import com.main.studentManagement.repository.RoleRepository;
 import com.main.studentManagement.service.CustomeuserDetailsService;
 import com.main.studentManagement.service.StudentServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PostAuthorize;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/api/")
-public class StudentController {
+public class ServiceContoller {
     @Autowired
     private StudentServiceImpl service;
     @Autowired
