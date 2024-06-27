@@ -2,6 +2,7 @@ package com.main.studentManagement.controller;
 
 import com.main.studentManagement.entity.StudentInfo;
 import com.main.studentManagement.entity.User;
+import com.main.studentManagement.responseHandler.LoginResponse;
 import com.main.studentManagement.service.CustomeuserDetailsService;
 import com.main.studentManagement.service.StudentServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +13,15 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/")
 public class ServiceContoller {
+    private final StudentServiceImpl service;
+    private final CustomeuserDetailsService customeuserDetailsService;
+    
     @Autowired
-    private StudentServiceImpl service;
-    @Autowired
-    private CustomeuserDetailsService customeuserDetailsService;
-
+    public ServiceContoller(StudentServiceImpl service,CustomeuserDetailsService customeuserDetailsService){
+        this.service = service;
+        this.customeuserDetailsService = customeuserDetailsService;
+    }
+    
     @GetMapping("/student/{studentId}")
     public StudentInfo getEntity(@PathVariable Long studentId){
         return service.getEntityById(studentId);
@@ -41,5 +46,10 @@ public class ServiceContoller {
     public String getUserByUsername(@PathVariable String username){
         return customeuserDetailsService.loadUserByUsername(username).getUsername();
     }
+    @PostMapping("/login")
+    public LoginResponse loginUser(@RequestBody User user){
+        return customeuserDetailsService.loginUser(user.getUsername(),user.getPassword());
+    }
+
 
 }
