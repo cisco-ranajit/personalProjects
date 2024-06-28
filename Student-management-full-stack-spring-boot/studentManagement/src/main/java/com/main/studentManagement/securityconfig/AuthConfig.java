@@ -8,6 +8,7 @@ import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
@@ -30,10 +31,12 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class AuthConfig {
     private final RSAKeyProperties key;
+
     public AuthConfig(RSAKeyProperties key) {
         this.key = key;
     }
 
+    @Lazy
     @Bean
     public AuthenticationManager authenticationManager(UserDetailsService service) throws Exception {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();

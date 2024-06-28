@@ -29,17 +29,22 @@ public class CustomeuserDetailsService implements UserDetailsService{
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder encoder;
-    private final AuthenticationManager authenticationManager;
+    private AuthenticationManager authenticationManager;
     private final TokenService tokenService;
-    
+
     @Autowired
-    public CustomeuserDetailsService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder encoder, TokenService tokenService, AuthenticationManager authenticationManager) {
+    public CustomeuserDetailsService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder encoder, TokenService tokenService) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.encoder = encoder;
         this.tokenService = tokenService;
+    }
+
+    @Autowired
+    public void setAuthenticationManager(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
     }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
@@ -76,6 +81,7 @@ public class CustomeuserDetailsService implements UserDetailsService{
         roles.add(userRole);
         return userRepository.save(new User(userName, encodedPassword, roles));
     }
+
     public LoginResponse loginUser(String userName, String password){
         try{
         Authentication auth =
@@ -88,5 +94,4 @@ public class CustomeuserDetailsService implements UserDetailsService{
             throw new EntityNotFoundException(e.getMessage());
         }
     }
-
 }

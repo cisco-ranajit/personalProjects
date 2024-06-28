@@ -15,18 +15,18 @@ import java.util.List;
 public class ServiceContoller {
     private final StudentServiceImpl service;
     private final CustomeuserDetailsService customeuserDetailsService;
-    
+
     @Autowired
-    public ServiceContoller(StudentServiceImpl service,CustomeuserDetailsService customeuserDetailsService){
+    public ServiceContoller(StudentServiceImpl service, CustomeuserDetailsService customeuserDetailsService){
         this.service = service;
         this.customeuserDetailsService = customeuserDetailsService;
     }
-    
+
     @GetMapping("/student/{studentId}")
     public StudentInfo getEntity(@PathVariable Long studentId){
         return service.getEntityById(studentId);
     }
-    
+
     @GetMapping("/student")
     public List<StudentInfo> getEntityList(){
         return service.getEntityList();
@@ -46,10 +46,9 @@ public class ServiceContoller {
     public String getUserByUsername(@PathVariable String username){
         return customeuserDetailsService.loadUserByUsername(username).getUsername();
     }
+
     @PostMapping("/login")
     public LoginResponse loginUser(@RequestBody User user){
         return customeuserDetailsService.loginUser(user.getUsername(),user.getPassword());
     }
-
-
 }
