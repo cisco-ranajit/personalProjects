@@ -12,5 +12,15 @@ public class PageController {
         model.addAttribute("title", "Spring Boot Application");
         return "home";
     }
+
+    @RequestMapping("/about")
+    public String about(){
+        return "about";
+    }
+
+    @RequestMapping("/service")
+    public String service(){
+        return "services";
+    }
     
 }
