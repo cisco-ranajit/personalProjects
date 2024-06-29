@@ -6,6 +6,13 @@
   <title>Document</title>
 </head>
 <body>
-  <div th:insert="~{base :: parent('pratap','khandual')}"></div>
+  <div th:insert="~{base :: parent(~{::#demo_section})}">
+    <section id="main_section">
+      <h2>this is a service page</h2>
+    </section>
+    <section id="demo_section">
+      <h2>this is a demo section</h2>
+    </section>
+  </div>
 </body>
 </html>
