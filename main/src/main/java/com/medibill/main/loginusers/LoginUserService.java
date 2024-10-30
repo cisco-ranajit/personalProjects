@@ -1,11 +1,13 @@
 package com.medibill.main.loginusers;
 
+import com.medibill.main.common.TokenService;
 import com.medibill.roleModule.Role;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -26,13 +28,15 @@ public class LoginUserService implements ILoginUserSerivce, UserDetailsService{
     private final LoginUserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder encoder;
+    private final TokenService tokenService;
     private AuthenticationManager authenticationManager;
 
-
-    public LoginUserService(LoginUserRepository userRepository, RoleRepository roleRepository, PasswordEncoder encoder){
+    @Autowired
+    public LoginUserService(LoginUserRepository userRepository, RoleRepository roleRepository, PasswordEncoder encoder, TokenService tokenService){
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.encoder = encoder;
+        this.tokenService = tokenService;
     }
 
     @Override
@@ -94,17 +98,17 @@ public class LoginUserService implements ILoginUserSerivce, UserDetailsService{
         return userRepository.save(new LoginUsers(userName, userFirstName, userLastName, encodedPassword, authorities));
     }
 
-    // public LoginResponse loginUser(String userName, String password){
-    //     try{
-    //     Authentication auth =
-    //             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userName, password));
-    //     SecurityContextHolder.getContext().setAuthentication(auth);
-    //     // String token = tokenService.generateJwt(auth);
-    //     return new LoginResponse(userRepository.findById(userName).get(), token);
-    //     } catch (Exception e){
-    //         System.out.println(e.getMessage());
-    //         throw new EntityNotFoundException(e.getMessage());
-    //     }
-    // }
+    public LoginResponse loginUser(String userName, String password){
+        try{
+        Authentication auth =
+                authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userName, password));
+        SecurityContextHolder.getContext().setAuthentication(auth);
+        String token = tokenService.generateJwt(auth);
+        return new LoginResponse(userRepository.findById(userName).get(), token);
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+            throw new EntityNotFoundException(e.getMessage());
+        }
+    }
     
 }
